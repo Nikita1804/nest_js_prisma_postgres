@@ -17,10 +17,6 @@ import { CreateUserDto } from './create-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Post('/create')
-  // create(@Body() createUserDto: Prisma.UserCreateInput) {
-  //   return this.usersService.create(createUserDto);
-  // }
   @Post('/create')
   @UsePipes(new ValidationPipe({ transform: true }))
   create(@Body() createUserDto: CreateUserDto) {

@@ -14,7 +14,11 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.databaseService.user.findMany();
+    return this.databaseService.user.findMany({
+      include: {
+        phones: true,
+      },
+    });
   }
 
   async findOne(id: number): Promise<any> {

@@ -9,10 +9,49 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  type  String?
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  type      String?
+  phones    Phone[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt  // Добавьте @default(now())
+  isActive  Boolean  @default(true)
+
+  @@index([email])
+  @@index([type])
+}
+
+model Phone {
+  id          Int       @id @default(autoincrement())
+  number      String
+  countryCode String    @default("+7")
+  type        PhoneType @default(MOBILE)
+  isPrimary   Boolean   @default(false)
+  isVerified  Boolean   @default(false)
+  verifiedAt  DateTime?
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime  @default(now())
+
+  @@unique([number, userId])
+  @@index([number])
+  @@index([userId])
+  @@index([isPrimary])
+}
+
+enum UserType {
+  ADMIN
+  CUSTOMER
+  MANAGER
+  GUEST
+}
+
+enum PhoneType {
+  MOBILE
+  HOME
+  WORK
+  FAX
 }
 
 model Post {
