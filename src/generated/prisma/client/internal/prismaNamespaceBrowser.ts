@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Phone: 'Phone',
   Product: 'Product',
+  Subscription: 'Subscription',
   Post: 'Post'
 } as const
 
@@ -113,6 +114,25 @@ export const ProductScalarFieldEnum = {
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId',
+  status: 'status',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  autoRenew: 'autoRenew',
+  tokensUsed: 'tokensUsed',
+  monthlyTokens: 'monthlyTokens',
+  lastRenewedAt: 'lastRenewedAt',
+  cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {

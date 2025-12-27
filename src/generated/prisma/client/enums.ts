@@ -37,3 +37,14 @@ export const ProductNameType = {
 } as const
 
 export type ProductNameType = (typeof ProductNameType)[keyof typeof ProductNameType]
+
+
+export const SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]

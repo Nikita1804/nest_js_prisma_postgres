@@ -17,6 +17,7 @@ model User {
   isActive  Boolean  @default(true)
   updatedAt DateTime @default(now()) @updatedAt
   phones    Phone[]
+  subscription   Subscription?
 
   @@index([email])
   @@index([type])
@@ -51,6 +52,35 @@ model Product {
   createdAt   DateTime        @default(now())
 }
 
+// Модель подписки
+model Subscription {
+  id                Int       @id @default(autoincrement())
+  userId            Int       @unique
+  productId         Int
+  status            SubscriptionStatus @default(ACTIVE)
+  startDate         DateTime  @default(now())
+  endDate           DateTime           // Дата окончания подписки
+  autoRenew         Boolean   @default(true) // Автопродление
+  tokensUsed        Int       @default(0) // Использовано токенов за период
+  monthlyTokens     Int                // Месячный лимит токенов
+  lastRenewedAt     DateTime?
+  cancelledAt       DateTime?
+
+  // Связи
+  user          User                @relation(fields: [userId], references: [id])
+  // product           Product   @relation(fields: [productId], references: [id])
+  // payments          Payment[]
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
+
+  @@index([userId])
+  @@index([productId])
+  // @@index([status])
+  @@index([endDate])
+  @@unique([userId, productId, status], name: "unique_active_subscription")
+}
+
 model Post {
   id   Int     @id @default(autoincrement())
   name String?
@@ -76,4 +106,12 @@ enum ProductNameType {
   PRO
   PREMIUM
   UNLIMITED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PENDING      // Ожидает оплаты
+  CANCELLED    // Отменена
+  EXPIRED      // Истекла
+  SUSPENDED    // Приостановлена
 }

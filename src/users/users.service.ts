@@ -17,6 +17,7 @@ export class UsersService {
     return this.databaseService.user.findMany({
       include: {
         phones: true,
+        subscription: true,
       },
     });
   }

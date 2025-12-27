@@ -33,6 +33,11 @@ export type Phone = Prisma.PhoneModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
  * Model Post
  * 
  */

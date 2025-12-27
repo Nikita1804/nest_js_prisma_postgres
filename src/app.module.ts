@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { PhoneModule } from './phone/phone.module';
 import { ProductModule } from './product/product.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from './product/product.module';
     UsersModule,
     PhoneModule,
     ProductModule,
+    SubscriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
