@@ -48,6 +48,11 @@ export type User = Prisma.UserModel
  */
 export type Phone = Prisma.PhoneModel
 /**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
  * Model Post
  * 
  */

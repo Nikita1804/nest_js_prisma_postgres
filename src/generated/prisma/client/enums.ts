@@ -27,3 +27,13 @@ export const PhoneType = {
 } as const
 
 export type PhoneType = (typeof PhoneType)[keyof typeof PhoneType]
+
+
+export const ProductNameType = {
+  BASE: 'BASE',
+  PRO: 'PRO',
+  PREMIUM: 'PREMIUM',
+  UNLIMITED: 'UNLIMITED'
+} as const
+
+export type ProductNameType = (typeof ProductNameType)[keyof typeof ProductNameType]

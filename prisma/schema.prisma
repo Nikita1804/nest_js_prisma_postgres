@@ -40,6 +40,17 @@ model Phone {
   @@index([isPrimary])
 }
 
+model Product {
+  id      Int @id @default(autoincrement())
+  name    ProductNameType? @default(BASE)
+  description String?
+  token_count Int
+  price       Int
+  currency    String? @default("RUB")
+  is_active   Boolean @default(true)
+  createdAt   DateTime  @default(now())
+}
+
 enum UserType {
   ADMIN
   CUSTOMER
@@ -60,5 +71,11 @@ model Post {
   type  String?
 }
 
+enum ProductNameType {
+  BASE
+  PRO
+  PREMIUM
+  UNLIMITED
+}
 
 
