@@ -13,10 +13,10 @@ model User {
   email     String   @unique
   name      String?
   type      String?
-  phones    Phone[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt  // Добавьте @default(now())
   isActive  Boolean  @default(true)
+  updatedAt DateTime @default(now()) @updatedAt
+  phones    Phone[]
 
   @@index([email])
   @@index([type])
@@ -30,9 +30,9 @@ model Phone {
   isPrimary   Boolean   @default(false)
   isVerified  Boolean   @default(false)
   verifiedAt  DateTime?
-  user        User      @relation(fields: [userId], references: [id])
   userId      Int
   createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
 
   @@unique([number, userId])
   @@index([number])
@@ -41,14 +41,20 @@ model Phone {
 }
 
 model Product {
-  id      Int @id @default(autoincrement())
-  name    ProductNameType? @default(BASE)
+  id          Int             @id @default(autoincrement())
+  name        ProductNameType @default(BASE)
   description String?
   token_count Int
   price       Int
-  currency    String? @default("RUB")
-  is_active   Boolean @default(true)
-  createdAt   DateTime  @default(now())
+  currency    String?         @default("RUB")
+  is_active   Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+}
+
+model Post {
+  id   Int     @id @default(autoincrement())
+  name String?
+  type String?
 }
 
 enum UserType {
@@ -65,17 +71,9 @@ enum PhoneType {
   FAX
 }
 
-model Post {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  type  String?
-}
-
 enum ProductNameType {
   BASE
   PRO
   PREMIUM
   UNLIMITED
 }
-
-

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Prisma } from 'src/generated/prisma/client/client';
 
@@ -19,5 +19,13 @@ export class ProductController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: Prisma.ProductCreateInput,
+  ) {
+    return this.productService.update(+id, updateProductDto);
   }
 }

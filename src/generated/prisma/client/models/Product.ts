@@ -211,7 +211,7 @@ export type ProductGroupByOutputType = {
   description: string | null
   token_count: number
   price: number
-  currency: string
+  currency: string | null
   is_active: boolean
   createdAt: Date
   _count: ProductCountAggregateOutputType | null
@@ -245,7 +245,7 @@ export type ProductWhereInput = {
   description?: Prisma.StringNullableFilter<"Product"> | string | null
   token_count?: Prisma.IntFilter<"Product"> | number
   price?: Prisma.IntFilter<"Product"> | number
-  currency?: Prisma.StringFilter<"Product"> | string
+  currency?: Prisma.StringNullableFilter<"Product"> | string | null
   is_active?: Prisma.BoolFilter<"Product"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
 }
@@ -256,7 +256,7 @@ export type ProductOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   token_count?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
+  currency?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -270,7 +270,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Product"> | string | null
   token_count?: Prisma.IntFilter<"Product"> | number
   price?: Prisma.IntFilter<"Product"> | number
-  currency?: Prisma.StringFilter<"Product"> | string
+  currency?: Prisma.StringNullableFilter<"Product"> | string | null
   is_active?: Prisma.BoolFilter<"Product"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
 }, "id">
@@ -281,7 +281,7 @@ export type ProductOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   token_count?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
+  currency?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ProductCountOrderByAggregateInput
@@ -300,7 +300,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   token_count?: Prisma.IntWithAggregatesFilter<"Product"> | number
   price?: Prisma.IntWithAggregatesFilter<"Product"> | number
-  currency?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  currency?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   is_active?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string
 }
@@ -310,7 +310,7 @@ export type ProductCreateInput = {
   description?: string | null
   token_count: number
   price: number
-  currency?: string
+  currency?: string | null
   is_active?: boolean
   createdAt?: Date | string
 }
@@ -321,7 +321,7 @@ export type ProductUncheckedCreateInput = {
   description?: string | null
   token_count: number
   price: number
-  currency?: string
+  currency?: string | null
   is_active?: boolean
   createdAt?: Date | string
 }
@@ -331,7 +331,7 @@ export type ProductUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   token_count?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -342,7 +342,7 @@ export type ProductUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   token_count?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -353,7 +353,7 @@ export type ProductCreateManyInput = {
   description?: string | null
   token_count: number
   price: number
-  currency?: string
+  currency?: string | null
   is_active?: boolean
   createdAt?: Date | string
 }
@@ -363,7 +363,7 @@ export type ProductUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   token_count?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -374,7 +374,7 @@ export type ProductUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   token_count?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -485,7 +485,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string | null
     token_count: number
     price: number
-    currency: string
+    currency: string | null
     is_active: boolean
     createdAt: Date
   }, ExtArgs["result"]["product"]>

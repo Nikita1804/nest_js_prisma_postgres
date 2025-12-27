@@ -38,4 +38,14 @@ export class ProductService {
       name: DISPLAY_NAMES[product.name] || product.name,
     }));
   }
+
+  async update(id: number, updateProductDto: Prisma.ProductUpdateInput) {
+    await this.findOne(id);
+    return this.databaseService.product.update({
+      where: {
+        id,
+      },
+      data: updateProductDto,
+    });
+  }
 }
