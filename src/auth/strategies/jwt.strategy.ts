@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { jwtConstants } from '../../config/jwt.config';
@@ -19,6 +19,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       email: payload.email,
       firstName: payload.firstName,
       lastName: payload.lastName,
+      exp: payload.exp,
+      iat: payload.iat,
     };
   }
 }
