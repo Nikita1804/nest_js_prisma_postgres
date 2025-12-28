@@ -5,6 +5,7 @@ declare namespace Express {
       email: string;
       firstName?: string;
       lastName?: string;
+      sessionId: string;
       exp: number;
       iat: number;
     };

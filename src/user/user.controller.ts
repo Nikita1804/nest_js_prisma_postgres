@@ -12,6 +12,7 @@ import {
   UseGuards,
   ParseIntPipe,
   Put,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -89,7 +90,7 @@ export class UserController {
   @ApiOperation({ summary: 'Получение пользователя по ID' })
   @ApiParam({
     name: 'id',
-    type: Number,
+    type: String,
     description: 'ID пользователя',
     example: 1,
   })
@@ -107,7 +108,7 @@ export class UserController {
     description: 'Пользователь не найден',
   })
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<UserResponseDto> {
     return this.userService.findById(id);
   }

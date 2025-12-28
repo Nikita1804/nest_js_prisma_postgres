@@ -26,7 +26,6 @@ export class UserService {
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-
     const user = await this.dataBase.user.create({
       data: {
         email: createUserDto.email,
@@ -38,8 +37,9 @@ export class UserService {
     return this.toUserResponseDto(user);
   }
 
-  async findById(id: number): Promise<UserResponseDto> {
-    const user = await this.dataBase.user.findUnique({
+  async findById(id: string): Promise<UserResponseDto> {
+    console.log('findById - ', id);
+    const user = await this.dataBase.user.findFirst({
       where: { id },
     });
 
@@ -57,7 +57,7 @@ export class UserService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
     // Проверяем существование пользователя
@@ -103,7 +103,7 @@ export class UserService {
     return this.toUserResponseDto(updatedUser);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     const existingUser = await this.dataBase.user.findUnique({
       where: { id },
     });

@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserResponseDto {
   @ApiProperty({
-    example: 1,
+    example: '3eb9b420-abd4-4e1d-a98c-39e0096ace55',
     description: 'Id пользователя',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
     example: 'user@example@mail.ru',

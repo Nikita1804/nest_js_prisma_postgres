@@ -6,20 +6,23 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../config/jwt.config';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { CleanupSessionsTask } from './tasks/cleanup-sessions.task';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
+    forwardRef(() => UserModule),
+    PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: {
         expiresIn: jwtConstants.expiresIn,
       },
     }),
-    forwardRef(() => UserModule),
-    PassportModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, CleanupSessionsTask],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}
