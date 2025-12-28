@@ -11,107 +11,11 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  name      String?
-  type      String?
+  password  String
+  firstName String?
+  lastName  String?
   createdAt DateTime @default(now())
-  isActive  Boolean  @default(true)
-  updatedAt DateTime @default(now()) @updatedAt
-  phones    Phone[]
-  subscription   Subscription?
+  updatedAt DateTime @updatedAt
 
-  @@index([email])
-  @@index([type])
-}
-
-model Phone {
-  id          Int       @id @default(autoincrement())
-  number      String
-  countryCode String    @default("+7")
-  type        PhoneType @default(MOBILE)
-  isPrimary   Boolean   @default(false)
-  isVerified  Boolean   @default(false)
-  verifiedAt  DateTime?
-  userId      Int
-  createdAt   DateTime  @default(now())
-  user        User      @relation(fields: [userId], references: [id])
-
-  @@unique([number, userId])
-  @@index([number])
-  @@index([userId])
-  @@index([isPrimary])
-}
-
-model Product {
-  id          Int             @id @default(autoincrement())
-  name        ProductNameType @default(BASE)
-  description String?
-  token_count Int
-  price       Int
-  currency    String?         @default("RUB")
-  is_active   Boolean         @default(true)
-  createdAt   DateTime        @default(now())
-}
-
-// Модель подписки
-model Subscription {
-  id                Int       @id @default(autoincrement())
-  userId            Int       @unique
-  productId         Int
-  status            SubscriptionStatus @default(ACTIVE)
-  startDate         DateTime  @default(now())
-  endDate           DateTime           // Дата окончания подписки
-  autoRenew         Boolean   @default(true) // Автопродление
-  tokensUsed        Int       @default(0) // Использовано токенов за период
-  monthlyTokens     Int                // Месячный лимит токенов
-  lastRenewedAt     DateTime?
-  cancelledAt       DateTime?
-
-  // Связи
-  user          User                @relation(fields: [userId], references: [id])
-  // product           Product   @relation(fields: [productId], references: [id])
-  // payments          Payment[]
-
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @default(now()) @updatedAt
-
-  @@index([userId])
-  @@index([productId])
-  // @@index([status])
-  @@index([endDate])
-  @@unique([userId, productId, status], name: "unique_active_subscription")
-}
-
-model Post {
-  id   Int     @id @default(autoincrement())
-  name String?
-  type String?
-}
-
-enum UserType {
-  ADMIN
-  CUSTOMER
-  MANAGER
-  GUEST
-}
-
-enum PhoneType {
-  MOBILE
-  HOME
-  WORK
-  FAX
-}
-
-enum ProductNameType {
-  BASE
-  PRO
-  PREMIUM
-  UNLIMITED
-}
-
-enum SubscriptionStatus {
-  ACTIVE
-  PENDING      // Ожидает оплаты
-  CANCELLED    // Отменена
-  EXPIRED      // Истекла
-  SUSPENDED    // Приостановлена
+  @@map("users")
 }

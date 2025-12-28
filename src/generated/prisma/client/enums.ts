@@ -9,42 +9,7 @@
 * 🟢 You can import this file directly.
 */
 
-export const UserType = {
-  ADMIN: 'ADMIN',
-  CUSTOMER: 'CUSTOMER',
-  MANAGER: 'MANAGER',
-  GUEST: 'GUEST'
-} as const
-
-export type UserType = (typeof UserType)[keyof typeof UserType]
 
 
-export const PhoneType = {
-  MOBILE: 'MOBILE',
-  HOME: 'HOME',
-  WORK: 'WORK',
-  FAX: 'FAX'
-} as const
-
-export type PhoneType = (typeof PhoneType)[keyof typeof PhoneType]
-
-
-export const ProductNameType = {
-  BASE: 'BASE',
-  PRO: 'PRO',
-  PREMIUM: 'PREMIUM',
-  UNLIMITED: 'UNLIMITED'
-} as const
-
-export type ProductNameType = (typeof ProductNameType)[keyof typeof ProductNameType]
-
-
-export const SubscriptionStatus = {
-  ACTIVE: 'ACTIVE',
-  PENDING: 'PENDING',
-  CANCELLED: 'CANCELLED',
-  EXPIRED: 'EXPIRED',
-  SUSPENDED: 'SUSPENDED'
-} as const
-
-export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+// This file is empty because there are no enums in the schema.
+export {}

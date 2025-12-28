@@ -19,7 +19,10 @@ export class DatabaseService
     });
     const adapter = new PrismaPg(pool);
 
-    super({ adapter });
+    super({
+      adapter,
+      log: ['query', 'info', 'warn', 'error'],
+    });
   }
 
   async onModuleInit() {

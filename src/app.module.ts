@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
-import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
-import { PhoneModule } from './phone/phone.module';
-import { ProductModule } from './product/product.module';
-import { SubscriptionModule } from './subscription/subscription.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,10 +12,8 @@ import { SubscriptionModule } from './subscription/subscription.module';
       isGlobal: true,
     }),
     DatabaseModule,
-    UsersModule,
-    PhoneModule,
-    ProductModule,
-    SubscriptionModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

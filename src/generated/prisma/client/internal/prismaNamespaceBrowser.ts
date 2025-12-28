@@ -51,11 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User',
-  Phone: 'Phone',
-  Product: 'Product',
-  Subscription: 'Subscription',
-  Post: 'Post'
+  User: 'User'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -77,71 +73,14 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  name: 'name',
-  type: 'type',
+  password: 'password',
+  firstName: 'firstName',
+  lastName: 'lastName',
   createdAt: 'createdAt',
-  isActive: 'isActive',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-export const PhoneScalarFieldEnum = {
-  id: 'id',
-  number: 'number',
-  countryCode: 'countryCode',
-  type: 'type',
-  isPrimary: 'isPrimary',
-  isVerified: 'isVerified',
-  verifiedAt: 'verifiedAt',
-  userId: 'userId',
-  createdAt: 'createdAt'
-} as const
-
-export type PhoneScalarFieldEnum = (typeof PhoneScalarFieldEnum)[keyof typeof PhoneScalarFieldEnum]
-
-
-export const ProductScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  token_count: 'token_count',
-  price: 'price',
-  currency: 'currency',
-  is_active: 'is_active',
-  createdAt: 'createdAt'
-} as const
-
-export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
-
-
-export const SubscriptionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  productId: 'productId',
-  status: 'status',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  autoRenew: 'autoRenew',
-  tokensUsed: 'tokensUsed',
-  monthlyTokens: 'monthlyTokens',
-  lastRenewedAt: 'lastRenewedAt',
-  cancelledAt: 'cancelledAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
-
-
-export const PostScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  type: 'type'
-} as const
-
-export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
 export const SortOrder = {

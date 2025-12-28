@@ -42,23 +42,3 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
-/**
- * Model Phone
- * 
- */
-export type Phone = Prisma.PhoneModel
-/**
- * Model Product
- * 
- */
-export type Product = Prisma.ProductModel
-/**
- * Model Subscription
- * 
- */
-export type Subscription = Prisma.SubscriptionModel
-/**
- * Model Post
- * 
- */
-export type Post = Prisma.PostModel
