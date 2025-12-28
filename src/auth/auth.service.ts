@@ -81,11 +81,11 @@ export class AuthService {
     try {
       // Валидируем токен
       const payload = this.jwtService.verify(token);
-
+      console.log('payload - ', payload);
       if (logoutDto.type === 'all') {
         // Удаляем все сессии пользователя
         const result = await this.dataBaseService.session.deleteMany({
-          where: { userId: payload.sub },
+          where: { userId: payload.id },
         });
 
         return {
@@ -98,7 +98,7 @@ export class AuthService {
         await this.dataBaseService.session.deleteMany({
           where: {
             id: payload.sessionId,
-            userId: payload.sub,
+            userId: payload.id,
           },
         });
 

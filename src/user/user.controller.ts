@@ -65,7 +65,7 @@ export class UserController {
     }
   }
 
-  @Get('profile')
+  @Post('profile')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Получение профиля текущего пользователя',
@@ -82,6 +82,7 @@ export class UserController {
   async getProfile(
     @CurrentUser() user: UserResponseDto,
   ): Promise<UserResponseDto> {
+    console.log(user);
     return this.userService.findById(user.id);
   }
 

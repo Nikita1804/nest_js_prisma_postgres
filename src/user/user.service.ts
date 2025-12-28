@@ -38,7 +38,7 @@ export class UserService {
   }
 
   async findById(id: string): Promise<UserResponseDto> {
-    console.log('findById - ', id);
+    console.log('id - ', id);
     const user = await this.dataBase.user.findFirst({
       where: { id },
     });
