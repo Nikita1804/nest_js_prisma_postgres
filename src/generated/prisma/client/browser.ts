@@ -27,3 +27,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type Session = Prisma.SessionModel
+/**
+ * Model BalanceTransaction
+ * 
+ */
+export type BalanceTransaction = Prisma.BalanceTransactionModel

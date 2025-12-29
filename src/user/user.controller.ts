@@ -13,6 +13,7 @@ import {
   ParseIntPipe,
   Put,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,6 +22,7 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -108,6 +110,60 @@ export class UserController {
     return this.userService.getBalance(user.id);
   }
 
+  @Get('transactions')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Получить историю транзакций' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Количество записей на странице',
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Номер страницы',
+    example: 1,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'История транзакций',
+    schema: {
+      example: {
+        transactions: [
+          {
+            id: 1,
+            amount: 100,
+            type: 'deposit',
+            balanceBefore: 0,
+            balanceAfter: 100,
+            createdAt: '2024-01-01T10:00:00.000Z',
+          },
+        ],
+        pagination: {
+          total: 1,
+          page: 1,
+          limit: 10,
+          pages: 1,
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Неавторизован',
+  })
+  async getTransactions(
+    @CurrentUser() user: any,
+    @Query('limit') limit?: number,
+    @Query('page') page?: number,
+  ) {
+    return this.userService.getUserTransactions(user.id, limit, page);
+  }
+
   @Post('balance/deposit')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
@@ -134,7 +190,11 @@ export class UserController {
     if (updateBalanceDto.amount <= 0) {
       throw new Error('Сумма пополнения должна быть положительной');
     }
-    return this.userService.updateBalance(user.id, updateBalanceDto);
+    const depositDto = {
+      ...updateBalanceDto,
+      type: 'deposit',
+    };
+    return this.userService.updateBalance(user.id, depositDto);
   }
 
   @Post('balance/withdraw')
@@ -167,6 +227,7 @@ export class UserController {
     // Для списания передаем отрицательную сумму
     const withdrawDto = {
       ...updateBalanceDto,
+      type: 'withdraw',
       amount: -updateBalanceDto.amount,
     };
 

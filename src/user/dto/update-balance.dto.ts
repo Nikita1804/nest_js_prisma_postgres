@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, Min, IsOptional, IsString } from 'class-validator';
+import { IsNumber, Min, IsOptional, IsString, IsEnum } from 'class-validator';
 
 export class UpdateBalanceDto {
   @ApiProperty({
@@ -13,11 +13,30 @@ export class UpdateBalanceDto {
   amount: number;
 
   @ApiProperty({
-    example: 'Списание баланса',
+    example: 'deposit',
+    description: 'Тип операции',
+    enum: ['deposit', 'withdraw', 'purchase', 'refund'],
+  })
+  @IsEnum(['deposit', 'withdraw', 'purchase', 'refund'], {
+    message:
+      'Тип операции должен быть одним из: deposit, withdraw, purchase, refund',
+  })
+  type: string;
+
+  @ApiProperty({
+    example: 'Пополнение баланса',
     description: 'Причина изменения баланса',
     required: false,
   })
   @IsOptional()
   @IsString({ message: 'Причина должна быть строкой' })
   reason?: string;
+
+  @ApiProperty({
+    example: { paymentId: 'pay_123', method: 'card' },
+    description: 'Дополнительные метаданные',
+    required: false,
+  })
+  @IsOptional()
+  metadata?: Record<string, any>;
 }
