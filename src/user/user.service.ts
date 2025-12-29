@@ -1,5 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -8,6 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { DatabaseService } from '../database/database.service';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateBalanceDto } from './dto/update-balance.dto';
 
 @Injectable()
 export class UserService {
@@ -32,13 +34,13 @@ export class UserService {
         password: hashedPassword,
         firstName: createUserDto.firstName,
         lastName: createUserDto.lastName,
+        balance: createUserDto.balance || 0,
       },
     });
     return this.toUserResponseDto(user);
   }
 
   async findById(id: string): Promise<UserResponseDto> {
-    console.log('id - ', id);
     const user = await this.dataBase.user.findFirst({
       where: { id },
     });
@@ -103,6 +105,54 @@ export class UserService {
     return this.toUserResponseDto(updatedUser);
   }
 
+  async updateBalance(
+    id: string,
+    updateBalanceDto: UpdateBalanceDto,
+  ): Promise<UserResponseDto> {
+    // Проверяем существование пользователя
+    const user = await this.dataBase.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    // Рассчитываем новый баланс
+    const newBalance = Number(user.balance) + updateBalanceDto.amount;
+
+    // Проверяем, чтобы баланс не стал отрицательным
+    if (newBalance < 0) {
+      throw new BadRequestException('Недостаточно средств на балансе');
+    }
+
+    // Обновляем баланс
+    const updatedUser = await this.dataBase.user.update({
+      where: { id },
+      data: {
+        balance: newBalance,
+      },
+    });
+
+    // Здесь можно добавить логирование операции с балансом
+    // await this.createBalanceTransaction(user.id, updateBalanceDto.amount, updateBalanceDto.reason);
+
+    return this.toUserResponseDto(updatedUser);
+  }
+
+  async getBalance(id: string): Promise<{ balance: number }> {
+    const user = await this.dataBase.user.findUnique({
+      where: { id },
+      select: { balance: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    return { balance: Number(user.balance) };
+  }
+
   async delete(id: string): Promise<void> {
     const existingUser = await this.dataBase.user.findUnique({
       where: { id },
@@ -121,8 +171,9 @@ export class UserService {
     return {
       id: user.id,
       email: user.email,
-      firstName: user.firstName || undefined,
-      lastName: user.lastName || undefined,
+      firstName: user.firstName || null,
+      lastName: user.lastName || null,
+      balance: +user.balance,
     };
   }
 }

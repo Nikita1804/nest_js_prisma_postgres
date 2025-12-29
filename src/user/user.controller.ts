@@ -29,6 +29,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateBalanceDto } from './dto/update-balance.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -84,6 +85,92 @@ export class UserController {
   ): Promise<UserResponseDto> {
     console.log(user);
     return this.userService.findById(user.id);
+  }
+
+  @Get('balance')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Получить текущий баланс' })
+  @ApiResponse({
+    status: 200,
+    description: 'Баланс получен',
+    schema: {
+      example: { balance: 100.5 },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Неавторизован',
+  })
+  async getBalance(
+    @CurrentUser() user: UserResponseDto,
+  ): Promise<{ balance: number }> {
+    return this.userService.getBalance(user.id);
+  }
+
+  @Post('balance/deposit')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Пополнить баланс' })
+  @ApiBody({ type: UpdateBalanceDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Баланс пополнен',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Неверная сумма',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Неавторизован',
+  })
+  async depositBalance(
+    @CurrentUser() user: UserResponseDto,
+    @Body() updateBalanceDto: UpdateBalanceDto,
+  ): Promise<UserResponseDto> {
+    // Убеждаемся, что сумма положительная для пополнения
+    if (updateBalanceDto.amount <= 0) {
+      throw new Error('Сумма пополнения должна быть положительной');
+    }
+    return this.userService.updateBalance(user.id, updateBalanceDto);
+  }
+
+  @Post('balance/withdraw')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Списать с баланса' })
+  @ApiBody({ type: UpdateBalanceDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Средства списаны',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Недостаточно средств или неверная сумма',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Неавторизован',
+  })
+  async withdrawBalance(
+    @CurrentUser() user: UserResponseDto,
+    @Body() updateBalanceDto: UpdateBalanceDto,
+  ): Promise<UserResponseDto> {
+    // Убеждаемся, что сумма положительная для списания и меняем знак
+    if (updateBalanceDto.amount <= 0) {
+      throw new Error('Сумма списания должна быть положительной');
+    }
+
+    // Для списания передаем отрицательную сумму
+    const withdrawDto = {
+      ...updateBalanceDto,
+      amount: -updateBalanceDto.amount,
+    };
+
+    return this.userService.updateBalance(user.id, withdrawDto);
   }
 
   @Get(':id')

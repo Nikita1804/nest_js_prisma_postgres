@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -34,4 +42,15 @@ export class CreateUserDto {
   })
   @IsString({ message: 'Фамилия должно быть строкой' })
   lastName?: string;
+
+  @ApiProperty({
+    example: 0,
+    description: 'Начальный баланс пользователя',
+    required: false,
+    default: 0,
+  })
+  @IsOptional()
+  @IsNumber({}, { message: 'Баланс должен быть числом' })
+  @Min(0, { message: 'Баланс не может быть отрицательным' })
+  balance?: number;
 }
