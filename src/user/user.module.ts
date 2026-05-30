@@ -9,9 +9,10 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { AuthModule } from '../auth/auth.module';
 import { UserMiddleware } from '../auth/middleware/user.middleware';
+import { TransactionModule } from '../transaction/transaction.module';
 
 @Module({
-  imports: [forwardRef(() => AuthModule)],
+  imports: [forwardRef(() => AuthModule), TransactionModule],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

@@ -24,4 +24,11 @@ export class UserResponseDto {
     description: 'Фамилия пользователя',
   })
   lastName?: string;
+
+  @ApiProperty({
+    example: 100.5,
+    description: 'Баланс пользователя',
+    type: Number,
+  })
+  balance: number;
 }
